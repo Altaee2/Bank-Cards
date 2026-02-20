@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rafidain Bank Mastercard</title>
+    <style>
+        :root {
+            --bank-green: #006837; /* لون مصرف الرافدين الرسمي */
+            --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f9f295 45%, #b8860b 100%);
+            --card-bg: linear-gradient(135deg, #004d26 0%, #006837 50%, #00331a 100%);
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .card-container {
+            width: 90%;
+            max-width: 450px;
+            height: 280px;
+            perspective: 1500px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .card-container:hover .card {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 18px;
+            padding: 25px;
+            box-sizing: border-box;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* الوجه الأمامي - مصرف الرافدين */
+        .card-front {
+            background: var(--card-bg);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        /* إضافة نقش زخرفي خلفي */
+        .card-front::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .bank-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .bank-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .bank-logo-img {
+            width: 50px;
+            filter: brightness(0) invert(1);
+        }
+
+        .chip-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .chip {
+            width: 55px;
+            height: 42px;
+            background: var(--gold-gradient);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .mastercard-logo {
+            display: flex;
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+        }
+
+        .circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .red { background: #eb001b; z-index: 1; }
+        .orange { background: #f79e1b; margin-right: -20px; }
+
+        .profile-img {
+            width: 85px;
+            height: 85px;
+            border-radius: 10px;
+            border: 2px solid #d4af37;
+            object-fit: cover;
+            position: absolute;
+            top: 75px;
+            left: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .card-number {
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+            font-family: 'OCR A Extended', monospace;
+            margin-top: 45px;
+            text-align: center;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 2;
+        }
+
+        .label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; }
+        .value { font-size: 0.9rem; font-weight: bold; }
+
+        /* الوجه الخلفي */
+        .card-back {
+            background: #1a1a1a;
+            transform: rotateY(180deg);
+            padding: 0;
+        }
+
+        .mag-stripe {
+            width: 100%;
+            height: 50px;
+            background: #000;
+            margin-top: 30px;
+        }
+
+        .cvv-strip {
+            margin: 20px 20px;
+            height: 40px;
+            background: #fff;
+            width: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: #333;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <div class="card">
+            <div class="card-front">
+                <div class="bank-header">
+                    <div class="bank-name">
+                        مصرف الرافدين<br>
+                        <span style="font-size: 0.8rem; font-weight: normal;">Rafidain Bank</span>
+                    </div>
+                </div>
+
+                <div class="chip-container">
+                    <div class="chip"></div>
+                </div>
+
+                <img src="https://i.postimg.cc/jjQy6CjM/IMG-20260101-WA0075.jpg" alt="صورة علي الطائي" class="profile-img">
+
+                <div class="card-number">0987 3654 2714 6482</div>
+
+                <div class="card-footer">
+                    <div>
+                        <div class="label">اسم حامل البطاقة</div>
+                        <div class="value">علي الطائي</div>
+                    </div>
+                    <div style="text-align: left;">
+                        <div class="label">تاريخ الانتهاء</div>
+                        <div class="value">12/28</div>
+                    </div>
+                </div>
+
+                <div class="mastercard-logo">
+                    <div class="circle red"></div>
+                    <div class="circle orange"></div>
+                </div>
+            </div>
+
+            <div class="card-back">
+                <div class="mag-stripe"></div>
+                <div style="padding: 15px 20px 0 0;" class="label">AUTHORIZED SIGNATURE</div>
+                <div class="cvv-strip">85893145798</div>
+                <div style="padding: 10px 20px; font-size: 0.55rem; color: #777; line-height: 1.4;">
+                    تحذير: هذه البطاقة تعود ملكيتها لمصرف الرافدين. الاستخدام غير المصرح به يعرضك للمسائلة القانونية.
+                    إذا وجدت البطاقة يرجى تسليمها لأقرب فرع لمصرف الرافدين.
+                </div>
+                <div style="text-align: center; color: white; font-weight: bold; margin-top: 10px;">
+                    World Debit
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
