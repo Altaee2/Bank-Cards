@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Identity Card</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.1);
+            --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* حاوية البطاقة - متجاوبة */
+        .card-container {
+            width: 90%;
+            max-width: 450px;
+            height: 280px;
+            perspective: 1500px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .card-container:hover .card {
+            transform: rotateY(180deg) rotateX(10deg);
+        }
+
+        /* تصميم الوجوه */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 30px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        /* تأثير اللمعان المتحرك */
+        .card-front::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 6s infinite;
+        }
+
+        /* الوجه الأمامي */
+        .card-front {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #fff;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .chip-box {
+            width: 55px;
+            height: 42px;
+            background: linear-gradient(135deg, #e0e0e0 0%, #a0a0a0 100%);
+            border-radius: 8px;
+            position: relative;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+        }
+
+        .profile-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 15px;
+            border: 2px solid var(--gold);
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+
+        .card-number {
+            font-size: 1.6rem;
+            letter-spacing: 4px;
+            font-family: 'OCR A Extended', monospace;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin: 20px 0;
+            background: linear-gradient(to bottom, #fff, #bdc3c7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .info-label {
+            font-size: 0.65rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* الوجه الخلفي */
+        .card-back {
+            background: #1a1a1a;
+            transform: rotateY(180deg);
+            color: #fff;
+            padding: 0;
+        }
+
+        .magnetic-strip {
+            width: 100%;
+            height: 50px;
+            background: #000;
+            margin-top: 30px;
+        }
+
+        .signature-area {
+            margin: 20px 30px;
+            height: 40px;
+            background: repeating-linear-gradient(45deg, #eee, #eee 10px, #ddd 10px, #ddd 20px);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: #333;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 1.2rem;
+            border-radius: 4px;
+        }
+
+        .back-text {
+            padding: 0 30px;
+            font-size: 0.6rem;
+            color: #888;
+            line-height: 1.5;
+            text-align: justify;
+        }
+
+        /* Animations */
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            20%, 100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* استعلامات الوسائط للجوال */
+        @media (max-width: 480px) {
+            .card-container {
+                height: 220px;
+            }
+            .card-number {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+            }
+            .profile-img {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <div class="card">
+            <div class="card-front">
+                <div class="header">
+                    <div class="chip-box"></div>
+                    <img src="https://i.postimg.cc/jjQy6CjM/IMG-20260101-WA0075.jpg" alt="صورة شخصية" class="profile-img">
+                </div>
+                
+                <div class="card-number">0987 3654 2714 6482</div>
+                
+                <div class="footer">
+                    <div>
+                        <div class="info-label">صاحب البطاقة</div>
+                        <div class="info-value">علي الطائي</div>
+                    </div>
+                    <div style="text-align: left;">
+                        <div class="info-label">صالح لغاية</div>
+                        <div class="info-value">12/28</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-back">
+                <div class="magnetic-strip"></div>
+                <div style="padding: 10px 30px 0 0" class="info-label">رقم التحقق CVV</div>
+                <div class="signature-area">
+                    <span style="letter-spacing: 2px;">85893145798</span>
+                </div>
+                <div class="back-text">
+                    هذه البطاقة رقمية لأغراض العرض فقط. حقوق التصميم محفوظة. في حال العثور عليها يرجى إعادتها إلى المصدر البرمجي. لا تقم بمشاركة الكود السري مع أي جهة غير موثوقة.
+                </div>
+                <div style="text-align: center; margin-top: 20px; color: var(--gold); font-weight: bold; font-size: 0.8rem;">
+                    PLATINUM MEMBER
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
