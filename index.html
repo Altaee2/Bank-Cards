@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rafidain Bank Mastercard</title>
+    <title>Professional Identity Card</title>
     <style>
         :root {
-            --bank-green: #006837; /* لون مصرف الرافدين الرسمي */
-            --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f9f295 45%, #b8860b 100%);
-            --card-bg: linear-gradient(135deg, #004d26 0%, #006837 50%, #00331a 100%);
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.1);
+            --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
         }
 
         body {
@@ -17,15 +17,18 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: #e0e0e0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
         }
 
+        /* حاوية البطاقة - متجاوبة */
         .card-container {
             width: 90%;
             max-width: 450px;
             height: 280px;
             perspective: 1500px;
+            animation: fadeIn 1.5s ease-out;
         }
 
         .card {
@@ -33,156 +36,169 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
 
         .card-container:hover .card {
-            transform: rotateY(180deg);
+            transform: rotateY(180deg) rotateX(10deg);
         }
 
+        /* تصميم الوجوه */
         .card-front, .card-back {
             position: absolute;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 18px;
-            padding: 25px;
+            border-radius: 20px;
+            padding: 30px;
             box-sizing: border-box;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
 
-        /* الوجه الأمامي - مصرف الرافدين */
+        /* تأثير اللمعان المتحرك */
+        .card-front::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 6s infinite;
+        }
+
+        /* الوجه الأمامي */
         .card-front {
-            background: var(--card-bg);
-            color: white;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            backdrop-filter: blur(15px);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            overflow: hidden;
+            color: #fff;
         }
 
-        /* إضافة نقش زخرفي خلفي */
-        .card-front::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
-            opacity: 0.1;
-            pointer-events: none;
-        }
-
-        .bank-header {
+        .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            z-index: 2;
+            align-items: flex-start;
         }
 
-        .bank-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-            line-height: 1.2;
-        }
-
-        .bank-logo-img {
-            width: 50px;
-            filter: brightness(0) invert(1);
-        }
-
-        .chip-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .chip {
+        .chip-box {
             width: 55px;
             height: 42px;
-            background: var(--gold-gradient);
+            background: linear-gradient(135deg, #e0e0e0 0%, #a0a0a0 100%);
             border-radius: 8px;
             position: relative;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
         }
-
-        .mastercard-logo {
-            display: flex;
-            position: absolute;
-            bottom: 25px;
-            left: 25px;
-        }
-
-        .circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-        .red { background: #eb001b; z-index: 1; }
-        .orange { background: #f79e1b; margin-right: -20px; }
 
         .profile-img {
-            width: 85px;
-            height: 85px;
-            border-radius: 10px;
-            border: 2px solid #d4af37;
+            width: 90px;
+            height: 90px;
+            border-radius: 15px;
+            border: 2px solid var(--gold);
             object-fit: cover;
-            position: absolute;
-            top: 75px;
-            left: 25px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: 0.3s;
         }
 
         .card-number {
             font-size: 1.6rem;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             font-family: 'OCR A Extended', monospace;
-            margin-top: 45px;
-            text-align: center;
-            background: var(--gold-gradient);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin: 20px 0;
+            background: linear-gradient(to bottom, #fff, #bdc3c7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: bold;
         }
 
-        .card-footer {
+        .footer {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            z-index: 2;
         }
 
-        .label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; }
-        .value { font-size: 0.9rem; font-weight: bold; }
+        .info-label {
+            font-size: 0.65rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
 
         /* الوجه الخلفي */
         .card-back {
             background: #1a1a1a;
             transform: rotateY(180deg);
+            color: #fff;
             padding: 0;
         }
 
-        .mag-stripe {
+        .magnetic-strip {
             width: 100%;
             height: 50px;
             background: #000;
             margin-top: 30px;
         }
 
-        .cvv-strip {
-            margin: 20px 20px;
+        .signature-area {
+            margin: 20px 30px;
             height: 40px;
-            background: #fff;
-            width: 70%;
+            background: repeating-linear-gradient(45deg, #eee, #eee 10px, #ddd 10px, #ddd 20px);
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            padding-right: 10px;
+            padding-right: 15px;
             color: #333;
-            font-weight: bold;
-            font-style: italic;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 1.2rem;
+            border-radius: 4px;
         }
 
+        .back-text {
+            padding: 0 30px;
+            font-size: 0.6rem;
+            color: #888;
+            line-height: 1.5;
+            text-align: justify;
+        }
+
+        /* Animations */
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            20%, 100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* استعلامات الوسائط للجوال */
+        @media (max-width: 480px) {
+            .card-container {
+                height: 220px;
+            }
+            .card-number {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+            }
+            .profile-img {
+                width: 70px;
+                height: 70px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -190,48 +206,36 @@
     <div class="card-container">
         <div class="card">
             <div class="card-front">
-                <div class="bank-header">
-                    <div class="bank-name">
-                        مصرف الرافدين<br>
-                        <span style="font-size: 0.8rem; font-weight: normal;">Rafidain Bank</span>
-                    </div>
+                <div class="header">
+                    <div class="chip-box"></div>
+                    <img src="https://i.postimg.cc/jjQy6CjM/IMG-20260101-WA0075.jpg" alt="صورة شخصية" class="profile-img">
                 </div>
-
-                <div class="chip-container">
-                    <div class="chip"></div>
-                </div>
-
-                <img src="https://i.postimg.cc/jjQy6CjM/IMG-20260101-WA0075.jpg" alt="صورة علي الطائي" class="profile-img">
-
+                
                 <div class="card-number">0987 3654 2714 6482</div>
-
-                <div class="card-footer">
+                
+                <div class="footer">
                     <div>
-                        <div class="label">اسم حامل البطاقة</div>
-                        <div class="value">علي الطائي</div>
+                        <div class="info-label">صاحب البطاقة</div>
+                        <div class="info-value">علي الطائي</div>
                     </div>
                     <div style="text-align: left;">
-                        <div class="label">تاريخ الانتهاء</div>
-                        <div class="value">12/28</div>
+                        <div class="info-label">صالح لغاية</div>
+                        <div class="info-value">12/28</div>
                     </div>
-                </div>
-
-                <div class="mastercard-logo">
-                    <div class="circle red"></div>
-                    <div class="circle orange"></div>
                 </div>
             </div>
 
             <div class="card-back">
-                <div class="mag-stripe"></div>
-                <div style="padding: 15px 20px 0 0;" class="label">AUTHORIZED SIGNATURE</div>
-                <div class="cvv-strip">85893145798</div>
-                <div style="padding: 10px 20px; font-size: 0.55rem; color: #777; line-height: 1.4;">
-                    تحذير: هذه البطاقة تعود ملكيتها لمصرف الرافدين. الاستخدام غير المصرح به يعرضك للمسائلة القانونية.
-                    إذا وجدت البطاقة يرجى تسليمها لأقرب فرع لمصرف الرافدين.
+                <div class="magnetic-strip"></div>
+                <div style="padding: 10px 30px 0 0" class="info-label">رقم التحقق CVV</div>
+                <div class="signature-area">
+                    <span style="letter-spacing: 2px;">85893145798</span>
                 </div>
-                <div style="text-align: center; color: white; font-weight: bold; margin-top: 10px;">
-                    World Debit
+                <div class="back-text">
+                    هذه البطاقة رقمية لأغراض العرض فقط. حقوق التصميم محفوظة. في حال العثور عليها يرجى إعادتها إلى المصدر البرمجي. لا تقم بمشاركة الكود السري مع أي جهة غير موثوقة.
+                </div>
+                <div style="text-align: center; margin-top: 20px; color: var(--gold); font-weight: bold; font-size: 0.8rem;">
+                    PLATINUM MEMBER
                 </div>
             </div>
         </div>
